@@ -1,5 +1,5 @@
 {
-  "name": "admin-vite-ts",
+  "name": "react-vite-ts-recoil",
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
