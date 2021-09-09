@@ -1,7 +1,6 @@
 import React, { FC, useEffect, Suspense, useCallback, useState } from "react";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { MenuList, MenuChild } from "@/models/menu.interface";
-import { useGuide } from "../guide/useGuide";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useGetCurrentMenus } from "@/api";
 import { userState } from "@/stores/user";
@@ -16,7 +15,6 @@ import { createBrowserHistory } from "history";
 import RightContent from "./components/RightContent";
 import { ReactComponent as LogoSvg } from "@/assets/logo/react.svg";
 import styles from "./index.module.less";
-import Footer from "./components/Footer";
 
 const history = createBrowserHistory();
 
@@ -33,7 +31,6 @@ const LayoutPage: FC = ({ children }) => {
   const [pathname, setPathname] = useState("/welcome");
   const { device, collapsed, newUser, settings } = user;
   const isMobile = device === "MOBILE";
-  const { driverStart } = useGuide();
   const location = useLocation();
   const navigate = useNavigate();
   const { formatMessage } = useLocale();
@@ -63,8 +60,7 @@ const LayoutPage: FC = ({ children }) => {
   };
 
   useEffect(() => {
-    newUser && driverStart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    newUser
   }, [newUser]);
 
   const loopMenuItem = (menus?: MenuDataItem[]): MenuDataItem[] => {
@@ -128,7 +124,6 @@ const LayoutPage: FC = ({ children }) => {
       menuDataRender={() => loopMenuItem(menuList)}
       // menuDataRender={() => m}
       rightContentRender={() => <RightContent />}
-      footerRender={() => <Footer />}
       collapsedButtonRender={() => {
         return (
           <div

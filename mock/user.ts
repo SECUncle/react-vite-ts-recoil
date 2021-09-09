@@ -2,6 +2,13 @@ import { MockMethod } from 'vite-plugin-mock';
 
 
 const mockMenuList = [
+
+  {
+    path: '/upload',
+    name: '上传',
+    locale: 'menu.upload',
+    icon: 'heart',
+  },
   {
     path: '/dashboard',
     name: '面板',
@@ -22,26 +29,8 @@ const mockMenuList = [
       },
     ],
   },
-  {
-    path: '/permission',
-    name: 'permission',
-    locale: 'menu.permission',
-    icon: 'smile',
-    children: [
-      {
-        path: '/permission/list',
-        name: 'permission list',
-        locale: 'menu.permission.list',
-        icon: 'smile',
-      },
-    ],
-  },
-  {
-    path: '/404',
-    name: '404',
-    locale: 'menu.notfound',
-    icon: 'frown',
-  }
+  
+ 
 
 ]
 
