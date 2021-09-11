@@ -35,29 +35,13 @@ const LayoutPage: FC = ({ children }) => {
   const navigate = useNavigate();
   const { formatMessage } = useLocale();
 
-  useEffect(() => {
-    if (location.pathname === "/") {
-      navigate("/dashboard");
-    }
-  }, [navigate, location]);
+
 
   const toggle = () => {
     setUser({ ...user, collapsed: !collapsed });
   };
 
-  const initMenuListAll = (menu: MenuList) => {
-    const MenuListAll: MenuChild[] = [];
-    menu.forEach((m) => {
-      if (!m?.children?.length) {
-        MenuListAll.push(m);
-      } else {
-        m?.children.forEach((mu) => {
-          MenuListAll.push(mu);
-        });
-      }
-    });
-    return MenuListAll;
-  };
+ 
 
   useEffect(() => {
     newUser

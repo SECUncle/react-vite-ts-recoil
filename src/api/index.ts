@@ -1,13 +1,13 @@
 import { MenuList } from "@/models/menu.interface";
-import { LoginParams, LoginResult } from "@/models/login";
+// import { LoginParams, LoginResult } from "@/models/login";
 import { CurrentUserResult } from "@/models/user";
 import { useBatch, useCreate, useGetList, useGetOne, useUpdate } from "./request";
 
 const projectResource = '/projects';
 
-export const useLogin = () => {
-    return useCreate<LoginParams, LoginResult>("/login");
-}
+// export const useLogin = () => {
+//     return useCreate<LoginParams, LoginResult>("/login");
+// }
 
 export const useGetCurrentUser = () => {
     return useGetOne<CurrentUserResult>(

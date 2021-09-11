@@ -247,6 +247,7 @@ const useBatch = (url: string) => {
     });
 }
 
+
 export {
     useGetOne,
     useGetList,

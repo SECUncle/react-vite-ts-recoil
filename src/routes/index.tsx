@@ -1,6 +1,5 @@
 import React, { lazy, FC } from "react";
 
-import Dashboard from "@/pages/dashboard";
 import LayoutPage from "@/pages/layout";
 import { PartialRouteObject } from "react-router";
 import WrapperRouteComponent from "./config";
@@ -23,10 +22,6 @@ const routeList: PartialRouteObject[] = [
       {
         path: "/upload",
         element: <WrapperRouteComponent element={<UploadPage />} />,
-      },
-      {
-        path: "/dashboard",
-        element: <WrapperRouteComponent element={<Dashboard />} />,
       },
       {
         path: "/project/list",

@@ -10,12 +10,6 @@ const mockMenuList = [
     icon: 'heart',
   },
   {
-    path: '/dashboard',
-    name: '面板',
-    locale: 'menu.dashboard',
-    icon: 'heart',
-  },
-  {
     path: '/project',
     name: 'Project',
     icon: 'smile',

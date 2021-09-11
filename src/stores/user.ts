@@ -3,7 +3,7 @@ import {
     selector,
 } from 'recoil';
 
-import { LoginParams, Role } from '@/models/login';
+// import { LoginParams, Role } from '@/models/login';
 import { Locale, User } from '@/models/user';
 import { getGlobalState } from '@/models';
 
@@ -18,7 +18,7 @@ const initialState: User = {
     logged: false,
     menuList: [],
     username: localStorage.getItem('username') || '',
-    role: (localStorage.getItem('username') || '') as Role,
+    // role: (localStorage.getItem('username') || '') as Role,
     avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png'
 };
 

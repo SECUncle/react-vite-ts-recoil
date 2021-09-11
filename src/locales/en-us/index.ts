@@ -2,7 +2,6 @@ import { enUS_avatorDropMenu } from './user/avatorDropMenu';
 import { enUS_tagsViewDropMenu } from './user/tagsViewDropMenu';
 import { enUS_title } from './user/title';
 import { enUS_globalTips } from './global/tips';
-import { enUS_dashboard } from './dashboard';
 import { enUS_project } from './project';
 import { enUS_menu } from './menu';
 
@@ -11,7 +10,6 @@ const en_US = {
   ...enUS_tagsViewDropMenu,
   ...enUS_title,
   ...enUS_globalTips,
-  ...enUS_dashboard,
   ...enUS_menu,
   ...enUS_project,
 };
