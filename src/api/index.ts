@@ -13,7 +13,7 @@ export const useGetCurrentUser = () => {
     return useGetOne<CurrentUserResult>(
         "CurrentUser",
         "/current/user"
-      );
+    );
 }
 
 export const useGetCurrentMenus = () => {
@@ -40,4 +40,17 @@ export const useUpdateProject = () => {
 
 export const useBatchDeleteProject = () => {
     return useBatch(projectResource + ':batchDelete');
+}
+
+
+export const useCreateStorage = () => {
+
+}
+
+export const useUploadFileToStorage = () => {
+
+}
+
+export const useCreateFileVersion = () => {
+
 }

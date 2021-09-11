@@ -10,6 +10,12 @@ const mockMenuList = [
     icon: 'heart',
   },
   {
+    path: '/uploadLocation',
+    name: '本地上传',
+    locale: 'menu.locationUpload',
+    icon: 'heart',
+  },
+  {
     path: '/project',
     name: 'Project',
     icon: 'smile',

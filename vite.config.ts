@@ -54,7 +54,7 @@ export default ({ command } : { command: string}) => {
         mockPath: 'mock',
         supportTs: true,
         watchFiles: true,
-        localEnabled: command === 'serve',
+        // localEnabled: command === 'serve',
         logger: true,
       }),
       // styleImport({
