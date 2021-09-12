@@ -11,7 +11,7 @@ const history = createBrowserHistory();
 
 console.log('baseurl:', import.meta.env.VITE_BASE_URL);
 const axios = Axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL + '',
+    // baseURL: import.meta.env.VITE_BASE_URL + '',
     timeout: 1000,
     headers: {
         'Content-Type': 'application/json',

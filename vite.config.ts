@@ -43,7 +43,7 @@ export default ({ command } : { command: string}) => {
         '/project/': {
           target: 'https://developer.api.autodesk.com/',
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/project/, 'project/')
+          rewrite: path => path.replace(/^\/project/, '')
         },
         // '/api/': {
         //   target: 'https://developer.api.autodesk.com/',
@@ -55,13 +55,13 @@ export default ({ command } : { command: string}) => {
     plugins: [
       reactRefresh(),
       svgr(),
-      viteMockServe({
-        mockPath: 'mock',
-        supportTs: true,
-        watchFiles: true,
-        // localEnabled: command === 'serve',
-        logger: true,
-      }),
+      // viteMockServe({
+      //   mockPath: 'mock',
+      //   supportTs: true,
+      //   watchFiles: true,
+      //   // localEnabled: command === 'serve',
+      //   logger: true,
+      // }),
       // styleImport({
       //   libs: [
       //     {

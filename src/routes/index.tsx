@@ -16,6 +16,11 @@ import UploadLocationPage from '@/pages/locationUpload'
 import Project from "@/pages/project";
 
 const routeList: PartialRouteObject[] = [
+
+  {
+    path: "/upload",
+    element: <WrapperRouteComponent element={<UploadPage />} />,
+  },
   {
     path: "/",
     element: <WrapperRouteComponent element={<LayoutPage />} />,

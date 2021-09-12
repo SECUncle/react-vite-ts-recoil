@@ -10,11 +10,9 @@ import moment from "moment";
 import "moment/locale/zh-cn";
 import RenderRouter from "./routes";
 
-
-
 import "./App.less";
 
-import { useGetCurrentUser,useGetAccoutIdService } from "./api";
+import { useGetCurrentUser, useGetAccoutIdService } from "./api";
 import { createBrowserHistory } from "history";
 import { useRecoilState } from "recoil";
 import { userState } from "./stores/user";
@@ -26,7 +24,7 @@ const App: React.FC = () => {
   const [user, setUser] = useRecoilState(userState);
   const { locale } = user;
 
-  const { data: currentUser, error } = useGetCurrentUser();
+  // const { data: currentUser, error } = useGetCurrentUser();
   // const { pathname } = useLocation();
 
   
@@ -52,14 +50,14 @@ const App: React.FC = () => {
       localStorage.setItem("token", params['access_token']);
 
     }
-    history.push("/upload/");
-    window.location.hash = ''
+    // history.push("/upload/");
+    // window.location.hash = ''
   }, [window.location]);
 
-  useEffect(() => {
-    console.log("currentUser: ", currentUser);
-    setUser({ ...user, username: currentUser?.username || "", logged: true });
-  }, [currentUser]);
+  // useEffect(() => {
+  //   console.log("currentUser: ", currentUser);
+  //   setUser({ ...user, username: currentUser?.username || "", logged: true });
+  // }, [currentUser]);
 
   useEffect(() => {
     if (locale.toLowerCase() === "en-us") {
@@ -86,10 +84,10 @@ const App: React.FC = () => {
     
   }
 
-  if (error) {
-    setUser({ ...user, logged: false });
-    history.push("/login");
-  }
+  // if (error) {
+  //   setUser({ ...user, logged: false });
+  //   history.push("/login");
+  // }
 
   // if (errors) {
   //   console.log(errors)
