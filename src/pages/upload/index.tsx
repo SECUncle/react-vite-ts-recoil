@@ -1,58 +1,232 @@
 import React, { useEffect, useState } from "react";
 import UploadPage from "./upload";
 import axios from "../../api/request";
-import { useLocation } from "react-router-dom";
-`//  1、引入useLocation`;
 
-const Index = (props) => {
-  const [hub, setHub] = useState({
+
+interface hubType {
+  name: string,
+  id: string
+}
+
+
+interface attributesType {
+  name: string,
+  displayName?: string,
+  extension: {
+    type: string,
+    version: string,
+    schema?: {
+      href: string
+    },
+    data?: { [key: string]: string | Array<string> }
+  }
+}
+interface hub {
+  type: string,
+  id: string,
+  attributes?: attributesType
+}
+interface hubResult {
+
+  jsonapi?: {
+    version: string
+  },
+  links?: {
+    self: {
+      href: string
+    }
+  },
+  data: Array<hub>
+
+
+}
+
+
+interface projectType {
+  name: string,
+  id: string
+}
+
+interface projectResult {
+  jsonapi?: {
+    version: string
+  },
+  links?: {
+    self: {
+      href: string
+    }
+  },
+  data: Array<hub>
+
+}
+interface folderType {
+  name: string,
+  id: string
+}
+
+interface folderResult {
+  jsonapi?: {
+    version: string
+  },
+  links?: {
+    self: {
+      href: string
+    }
+  },
+  data: Array<hub>
+
+}
+interface nestedFolderType {
+  name: string
+  id: string,
+}
+
+interface nestedFolderResult {
+  jsonapi?: {
+    version: string
+  },
+  links?: {
+    self: {
+      href: string
+    }
+  },
+  data: Array<hub>
+
+}
+
+
+interface createStorageParams {
+  jsonapi?: {
+    version: string
+  },
+  data: {
+    type: string,
+    attributes: {
+      name: string
+    },
+    relationships: {
+      target: {
+        data: {
+          type: string,
+          id: string
+        }
+      }
+    }
+  }
+}
+interface storageObjectType {
+  bucketKey: string,
+  objectName: string,
+  id: string,
+  storageId: string,
+}
+
+interface storageObjectResult {
+  jsonapi?: {
+    version: string
+  },
+  links?: {
+    self: {
+      href: string
+    }
+  },
+  data: hub
+
+}
+
+interface dataType {
+  type: string,
+  id: string
+}
+
+
+interface included {
+  type: string,
+  id: string,
+  attributes: attributesType,
+  relationships: {
+    storage: {
+      data: dataType
+    }
+
+  }
+}
+interface createFirstVersionToFileParams {
+  jsonapi?: {
+    version: string
+  },
+  data: {
+    type: string,
+    attributes: attributesType,
+    relationships: {
+      tip: {
+        data: dataType
+      },
+      parent: {
+        data: dataType
+      }
+    },
+  },
+  included: Array<included>
+}
+
+interface fileObjectType {
+  name: string,
+  id: string
+}
+
+interface fileObjectResult {
+  bucketKey: string,
+  sha1?: string,
+  size: string,
+  contentType?: string,
+  location?: string
+
+}
+
+
+const Index = (props: any) => {
+  const [hub, setHub] = useState<hubType>({
     name: "",
     id: "",
   });
 
-  const [project, setProject] = useState({
+  const [project, setProject] = useState<projectType>({
     name: "",
     id: "",
   });
 
-  const [folder, setFolder] = useState({
+  const [folder, setFolder] = useState<folderType>({
     name: "",
     id: "",
   });
 
-  const [nestedFolder, setNestedFolder] = useState({
+  const [nestedFolder, setNestedFolder] = useState<nestedFolderType>({
     name: "",
     id: "",
   });
 
-  const [storageObject, setStorageObject] = useState({
+  const [storageObject, setStorageObject] = useState<storageObjectType>({
     bucketKey: "",
     objectName: "",
     id: "",
     storageId: "",
   });
 
-  const [fileObject, setFileObject] = useState({
+  const [fileObject, setFileObject] = useState<fileObjectType>({
     name: "",
     id: "",
   });
 
   const [file, setFile] = useState(null);
 
-  const tokenParams = {
-    clientId: "oH8HsupybM4s0xAa9tzhAdZ2KUdNeNLS",
-    clientSecret: "Vok15vBX4bq2f8Iy",
-    rediectUrl: "http://localhost:3000",
-  };
-  let href = `https://developer.api.autodesk.com/authentication/v1/authorize?response_type=token
-  &client_id=${tokenParams.clientId}
-  &redirect_uri=${tokenParams.rediectUrl}&scope=data:create%20data:read%20data:write`;
+ 
 
   const getAccountId = async () => {
     await axios({
       method: "get",
       url: "https://developer.api.autodesk.com/project/v1/hubs",
-    }).then(function (response) {
+    }).then(function (response: hubResult): void {
       const data = response.data;
 
       const { attributes, id } = data[0];
@@ -64,12 +238,11 @@ const Index = (props) => {
     });
   };
 
-  const getProjectId = async (hubId) => {
+  const getProjectId = async (hubId: hubType) => {
     await axios({
       method: "get",
       url: `https://developer.api.autodesk.com/project/v1/hubs/${hubId}/projects`,
-      // responseType:'stream'
-    }).then(function (response) {
+    }).then(function (response: projectResult) {
       const data = response.data;
 
       const { attributes, id } = data[0];
@@ -78,11 +251,10 @@ const Index = (props) => {
         name: attributes.name,
         id: id,
       });
-      // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
     });
   };
 
-  const getFolderId = async (hubId, projectId) => {
+  const getFolderId = async (hubId: hubType, projectId: projectType) => {
     //  console.log(hubId, projectId, 'hubId, projectId')
 
     await axios({
@@ -90,7 +262,7 @@ const Index = (props) => {
       url: `https://developer.api.autodesk.com/project/v1/hubs/${hubId}/projects/${projectId}/topFolders`,
 
       // responseType:'stream'
-    }).then(function (response) {
+    }).then(function (response: folderResult) {
       const data = response.data;
 
       const { attributes, id } = data[0];
@@ -99,18 +271,14 @@ const Index = (props) => {
         name: attributes.name,
         id: id,
       });
-      // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
     });
   };
 
-  const getNestedFolderId = async (projectId, folderId) => {
-    //  console.log(hubId, projectId, 'hubId, projectId')
+  const getNestedFolderId = async (projectId: projectType, folderId: folderType) => {
 
     await axios({
       method: "get",
       url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/folders/${folderId}/contents`,
-
-      // responseType:'stream'
     }).then(function (response) {
       const data = response.data;
 
@@ -120,15 +288,12 @@ const Index = (props) => {
         name: attributes.name,
         id: id,
       });
-      // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
     });
   };
 
-  const createStorageObject = async (nestedFolder, projectId) => {
-    console.log(nestedFolder, "njjjj");
-    //  console.log(hubId, projectId, 'hubId, projectId')
+  const createStorageObject = async (nestedFolder: nestedFolderType, projectId: string) => {
 
-    const params = {
+    const params: createStorageParams = {
       jsonapi: { version: "1.0" },
       data: {
         type: "objects",
@@ -146,20 +311,7 @@ const Index = (props) => {
     await axios({
       method: "post",
       url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/storage`,
-      data: {
-        jsonapi: { version: "1.0" },
-        data: {
-          type: "objects",
-          attributes: {
-            name: "test02" + ".png",
-          },
-          relationships: {
-            target: {
-              data: { type: "folders", id: nestedFolder.id },
-            },
-          },
-        },
-      },
+      data: params,
     }).then(function (response) {
       const data = response.data;
 
@@ -168,12 +320,7 @@ const Index = (props) => {
       const bucketKey = temp[0];
       const objectName = temp[1];
       const targetId = relationships.target.data.id;
-      console.log(
-        bucketKey,
-        objectName,
-        targetId,
-        "hjhgj............................"
-      );
+
 
       setStorageObject({
         bucketKey: bucketKey,
@@ -181,11 +328,10 @@ const Index = (props) => {
         id: targetId,
         storageId: id,
       });
-      // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
     });
   };
 
-  const uploadFileToStorageObject = async (buketKey, objectName, formData) => {
+  const uploadFileToStorageObject = async (buketKey: any, objectName: any, formData: any) => {
     await axios({
       headers: {
         "Content-Type": "image/png",
@@ -202,98 +348,98 @@ const Index = (props) => {
   };
 
   const createFirstVersionFile = async (
-    projectId,
-    folderId,
-    objectId,
-    nestedFolderName
-  ) => {
-    // console.log("hajfghhjrsgjhgbhjgjhgbhjg");
-    const params = {
-      jsonapi: { version: "1.0" },
-      data: {
-        type: "items",
-        attributes: {
-          displayName: nestedFolderName + ".png",
-          extension: {
-            type: "items:autodesk.bim360:File",
-            version: "1.0",
-          },
-        },
-        relationships: {
-          tip: {
-            data: {
-              type: "versions",
-              id: "1",
-            },
-          },
-          parent: {
-            data: {
-              type: "folders",
-              id: folderId,
-            },
-          },
-        },
-      },
-      included: [
-        {
-          type: "versions",
-          id: "1",
+    projectId: string,
+      folderId: string,
+      objectId: string,
+      nestedFolderName: string
+    ) => {
+      // console.log("hajfghhjrsgjhgbhjgjhgbhjg");
+      const params: createFirstVersionToFileParams = {
+        jsonapi: { version: "1.0" },
+        data: {
+          type: "items",
           attributes: {
-            name: nestedFolderName + ".png",
+            displayName: nestedFolderName + ".png",
             extension: {
-              type: "versions:autodesk.bim360:File",
+              type: "items:autodesk.bim360:File",
               version: "1.0",
             },
           },
           relationships: {
-            storage: {
+            tip: {
               data: {
-                type: "objects",
-                id: objectId,
+                type: "versions",
+                id: "1",
+              },
+            },
+            parent: {
+              data: {
+                type: "folders",
+                id: folderId,
               },
             },
           },
         },
-      ],
+        included: [
+          {
+            type: "versions",
+            id: "1",
+            attributes: {
+              name: nestedFolderName + ".png",
+              extension: {
+                type: "versions:autodesk.bim360:File",
+                version: "1.0",
+              },
+            },
+            relationships: {
+              storage: {
+                data: {
+                  type: "objects",
+                  id: objectId,
+                },
+              },
+            },
+          },
+        ],
+      };
+
+      // console.log(JSON.stringify(params), "hhjhj");
+
+      // await axios({
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   method: "post",
+      //   url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`,
+      //   data: params,
+      // }).then(function (response) {
+      //   const data = response.data;
+
+      //   // const { relationships, id } = data;
+      //   console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
+      // });
+
+      var data = JSON.stringify(params);
+
+      var xhr = new XMLHttpRequest();
+      xhr.withCredentials = true;
+
+      xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+          console.log(this.responseText);
+        }
+      });
+
+      xhr.open("POST", `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`);
+      xhr.setRequestHeader("Authorization",
+        `Bearer ${localStorage.getItem("token")}`)
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.send(data);
     };
 
-    // console.log(JSON.stringify(params), "hhjhj");
-
-    // await axios({
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   method: "post",
-    //   url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`,
-    //   data: params,
-    // }).then(function (response) {
-    //   const data = response.data;
-
-    //   // const { relationships, id } = data;
-    //   console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
-    // });
-
-    var data = JSON.stringify(params);
-
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        console.log(this.responseText);
-      }
-    });
-
-    xhr.open("POST", `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`);
-    xhr.setRequestHeader("Authorization",
-      `Bearer ${localStorage.getItem("token")}`)
-    xhr.setRequestHeader("Content-Type", "application/json");
-
-    xhr.send(data);
-  };
-
   useEffect(() => {
-    getAccountId();
+    getAccountId()
   }, []);
 
   useEffect(() => {
@@ -312,14 +458,9 @@ const Index = (props) => {
     nestedFolder && project.id && createStorageObject(nestedFolder, project.id);
   }, [nestedFolder]);
 
-  // useEffect(() => {
-  //   uploadFileToStorageObject(
-  //     storageObject.bucketKey,
-  //     storageObject.objectName
-  //   );
-  // }, [storageObject]);
+  
 
-  const onchange = (file) => {
+  const onchange = (file: { target: { files: any[]; }; }) => {
     let files = file.target.files[0];
 
     let data = new FormData();
@@ -378,7 +519,7 @@ const Index = (props) => {
   return (
     <ul>
       <li>
-        <a href={href}>获取token</a>
+        {/* <a href={href}>获取token</a> */}
         <p>token: {localStorage.getItem("token")}</p>
       </li>
 

@@ -1,5 +1,6 @@
 export const zhCN_menu = {
   'menu.home': '首页',
+  'menu.login': '登陆',
   'menu.upload': '上传',
   'menu.locationUpload': '本地上传',
   'menu.project': '项目',

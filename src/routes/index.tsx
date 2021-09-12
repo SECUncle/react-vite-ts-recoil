@@ -8,6 +8,8 @@ import { useRoutes } from "react-router-dom";
 import UploadPage from '@/pages/upload'
 import UploadLocationPage from '@/pages/locationUpload'
 
+import LoginPage from '@/pages/login'
+
 //TODO: lazy加载组件，prolayout的菜单无法自动选中菜单项，原因不明
 // const NotFound = lazy(() => import('@/pages/404'));
 // const AccountPage = lazy(() => import('@/pages/account'));
@@ -20,6 +22,10 @@ const routeList: PartialRouteObject[] = [
   {
     path: "/upload",
     element: <WrapperRouteComponent element={<UploadPage />} />,
+  },
+  {
+    path: "/auth/login",
+    element: <WrapperRouteComponent element={<LoginPage />} />,
   },
   {
     path: "/",

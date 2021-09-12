@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useMemo } from "react";
-import { BrowserRouter,useLocation } from "react-router-dom";
+import { BrowserRouter, useLocation } from "react-router-dom";
 import { IntlProvider } from "react-intl";
 
 import { localeConfig } from "@/config/locale";
@@ -20,6 +20,11 @@ import { Locale } from "./models/user";
 
 const history = createBrowserHistory();
 
+interface params {
+  [key: string]: string
+}
+
+
 const App: React.FC = () => {
   const [user, setUser] = useRecoilState(userState);
   const { locale } = user;
@@ -27,7 +32,7 @@ const App: React.FC = () => {
   // const { data: currentUser, error } = useGetCurrentUser();
   // const { pathname } = useLocation();
 
-  
+
   // const { data: currentAccountId, errors } = useGetAccoutIdService();
 
 
@@ -38,19 +43,18 @@ const App: React.FC = () => {
 
 
   useEffect(() => {
-    console.log("hjghj", window.location);
-    let params = {},
+    let params: params = {},
       queryString = location.hash.substring(1),
       regex = /([^&=]+)=([^&]*)/g,
       m = [];
     while ((m = regex.exec(queryString))) {
       params[m[1]] = m[2];
     }
-    if(window.location.hash.includes('access_token')){
+    if (window.location.hash.includes('access_token')) {
       localStorage.setItem("token", params['access_token']);
-
     }
-    history.push("/upload/");
+    history.replace("/upload/");
+    // window.location.href = 'localhost:3000/upload/'
     window.location.hash = ''
   }, [window.location]);
 
@@ -81,7 +85,7 @@ const App: React.FC = () => {
     });
 
     return lang?.messages;
-    
+
   }
 
   // if (error) {

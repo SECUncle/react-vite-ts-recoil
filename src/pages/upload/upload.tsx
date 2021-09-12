@@ -314,13 +314,13 @@ function UploadPage() {
             }
             strokeColor={
               uploadState === UPLOAD_STATES.FAILED &&
-              chunk.percent < 300 &&
-              chunk.percent > 0
+                chunk.percent < 300 &&
+                chunk.percent > 0
                 ? ""
                 : {
-                    "0%": "#ffc107",
-                    "100%": "#87d068",
-                  }
+                  "0%": "#ffc107",
+                  "100%": "#87d068",
+                }
             }
             style={{ width: "75%" }}
           />
@@ -383,10 +383,10 @@ function UploadPage() {
             </Button>
             {(uploadState === UPLOAD_STATES.SUCCESS ||
               uploadState === UPLOAD_STATES.FAILED) && (
-              <Button type="primary" onClick={clearFile}>
-                清空
-              </Button>
-            )}
+                <Button type="primary" onClick={clearFile}>
+                  清空
+                </Button>
+              )}
             {uploadState === UPLOAD_STATES.UPLOADING && (
               <Button type="primary" onClick={handlePauseUpload}>
                 暂停
