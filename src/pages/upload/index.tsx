@@ -29,13 +29,7 @@ const Index = (props) => {
     bucketKey: "",
     objectName: "",
     id: "",
-    storageId: ''
-    // bucketKey: "wip.dm.prod",
-    // objectName: "e2832c42-33d2-4a7a-9cde-7b0197ec8c8c.png",
-    // id: "urn:adsk.objects:os.object:wip.dm.prod/e2832c42-33d2-4a7a-9cde-7b0197ec8c8c.png",
-    // storageId: "urn:adsk.wipprod:fs.folder:co.HuMyf_TTQHOo_dXY3ez_mQ",
-
-    // urn:adsk.objects:os.object:/
+    storageId: "",
   });
 
   const [fileObject, setFileObject] = useState({
@@ -58,7 +52,6 @@ const Index = (props) => {
     await axios({
       method: "get",
       url: "https://developer.api.autodesk.com/project/v1/hubs",
-      // responseType:'stream'
     }).then(function (response) {
       const data = response.data;
 
@@ -68,7 +61,6 @@ const Index = (props) => {
         name: attributes.name,
         id: id,
       });
-      // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
     });
   };
 
@@ -194,7 +186,6 @@ const Index = (props) => {
   };
 
   const uploadFileToStorageObject = async (buketKey, objectName, formData) => {
-
     await axios({
       headers: {
         "Content-Type": "image/png",
@@ -207,18 +198,6 @@ const Index = (props) => {
 
       // const { relationships, id } = data;
       console.log("ahjfgshuergfuyehjr???");
-      // const temp = id.split("urn:adsk.objects:os.object:")[1].split("/");
-      // const bucketKey = temp[0];
-      // const objectName = temp[1];
-      // const targetId = relationships.target.id;
-      // console.log(bucketKey, objectName, targetId,'hjhgj............................')
-
-      // setStorageObject({
-      //   bucketKey: bucketKey,
-      //   objectName: objectName,
-      //   id: targetId,
-      // });
-      // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
     });
   };
 
@@ -228,7 +207,7 @@ const Index = (props) => {
     objectId,
     nestedFolderName
   ) => {
-    console.log('hajfghhjrsgjhgbhjgjhgbhjg')
+    // console.log("hajfghhjrsgjhgbhjgjhgbhjg");
     const params = {
       jsonapi: { version: "1.0" },
       data: {
@@ -278,74 +257,23 @@ const Index = (props) => {
       ],
     };
 
-    console.log(JSON.stringify(params),'hhjhj')
+    // console.log(JSON.stringify(params), "hhjhj");
 
-    await axios({
-      method: "post",
-      url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`,
-      data: params,
-    }).then(function (response) {
-      const data = response.data;
+    // await axios({
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   method: "post",
+    //   url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`,
+    //   data: params,
+    // }).then(function (response) {
+    //   const data = response.data;
 
-      // const { relationships, id } = data;
-      console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
-      // const temp = id.split("urn:adsk.objects:os.object:")[1].split("/");
-      // const bucketKey = temp[0];
-      // const objectName = temp[1];
-      // const targetId = relationships.target.id;
-      // console.log(bucketKey, objectName, targetId,'hjhgj............................')
+    //   // const { relationships, id } = data;
+    //   console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
+    // });
 
-      // setStorageObject({
-      //   bucketKey: bucketKey,
-      //   objectName: objectName,
-      //   id: targetId,
-      // });
-      // response.data.pipe(fs.createWriteStream('ada_lovelace.jpg'))
-    });
-  };
-
-  useEffect(() => {
-    getAccountId();
-  }, []);
-
-  useEffect(() => {
-    getProjectId(hub.id);
-  }, [hub]);
-
-  useEffect(() => {
-    getFolderId(hub.id, project.id);
-  }, [project]);
-
-  useEffect(() => {
-    getNestedFolderId(project.id, folder.id);
-  }, [folder]);
-
-  useEffect(() => {
-    createStorageObject(nestedFolder, project.id);
-  }, [nestedFolder]);
-
-  // useEffect(() => {
-  //   uploadFileToStorageObject(
-  //     storageObject.bucketKey,
-  //     storageObject.objectName
-  //   );
-  // }, [storageObject]);
-
-  const onchange = (file) => {
-    console.log(file.target, 'hjhkjh')
-    let files = file.target.files[0];
-  
-    let data = new FormData();
-    data.append("file", files);
-
-
-    // uploadFileToStorageObject(
-    //   storageObject.bucketKey,
-    //   storageObject.objectName,
-    //   data
-    // );
-
-
+    var data = JSON.stringify(params);
 
     var xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
@@ -356,19 +284,79 @@ const Index = (props) => {
       }
     });
 
-    xhr.open("PUT", "https://developer.api.autodesk.com/oss/v2/buckets/wip.dm.prod/objects/06101662-4511-4423-ae4e-8e70182a9f4f.png");
-    xhr.setRequestHeader("Authorization", `Bearer ${localStorage.getItem('token')}`);
+    xhr.open("POST", `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`);
+    xhr.setRequestHeader("Authorization",
+      `Bearer ${localStorage.getItem("token")}`)
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send(data);
+  };
+
+  useEffect(() => {
+    getAccountId();
+  }, []);
+
+  useEffect(() => {
+    hub.id && getProjectId(hub.id);
+  }, [hub]);
+
+  useEffect(() => {
+    hub.id && project.id && getFolderId(hub.id, project.id);
+  }, [project]);
+
+  useEffect(() => {
+    project.id && folder.id && getNestedFolderId(project.id, folder.id);
+  }, [folder]);
+
+  useEffect(() => {
+    nestedFolder && project.id && createStorageObject(nestedFolder, project.id);
+  }, [nestedFolder]);
+
+  // useEffect(() => {
+  //   uploadFileToStorageObject(
+  //     storageObject.bucketKey,
+  //     storageObject.objectName
+  //   );
+  // }, [storageObject]);
+
+  const onchange = (file) => {
+    let files = file.target.files[0];
+
+    let data = new FormData();
+    data.append("file", files);
+
+    // uploadFileToStorageObject(
+    //   storageObject.bucketKey,
+    //   storageObject.objectName,
+    //   data
+    // );
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        console.log(this.responseText);
+      }
+    });
+
+    xhr.open(
+      "PUT",
+      "https://developer.api.autodesk.com/oss/v2/buckets/wip.dm.prod/objects/06101662-4511-4423-ae4e-8e70182a9f4f.png"
+    );
+    xhr.setRequestHeader(
+      "Authorization",
+      `Bearer ${localStorage.getItem("token")}`
+    );
     xhr.setRequestHeader("Content-Type", "image/png");
 
     xhr.send(data);
 
     xhr.onload = (e) => {
       if (e.currentTarget.status === 200) {
-        const result =JSON.parse(e.target.response) 
+        const result = JSON.parse(e.target.response);
 
-        console.log('hjjkhkhjhresult', result, result.objectId,typeof(result),result.location)
-        setFileObject({id:result.objectId,name:''})
-       
+        setFileObject({ id: result.objectId, name: "" });
       } else {
         // reject(new Error('上传失败'));
       }
@@ -376,12 +364,10 @@ const Index = (props) => {
     xhr.onerror = () => {
       // reject(new Error('网络好像出问题啦~'));
     };
-
-
   };
 
   useEffect(() => {
-    createFirstVersionFile(
+    fileObject.id && createFirstVersionFile(
       project.id,
       folder.id,
       storageObject.storageId,
