@@ -1,11 +1,29 @@
+interface queryParams {
+	url: string,
+	method: string,
+	data: any,
+	headers: any,
+	onProgress: any,
+	requestList: any,
+}
+
+// interface event {
+// 	currentTarget: {
+// 		status: number
+// 	},
+// 	target: {
+// 		response: any
+// 	}
+// }
+
+
 export const request = ({
 	url,
 	method = 'post',
 	data,
 	headers = {},
 	onProgress,
-	requestList,
-}) => {
+	requestList }: queryParams) => {
 	return new Promise((resolve, reject) => {
 		const xhr = new XMLHttpRequest();
 		xhr.open(method, url);
@@ -37,3 +55,12 @@ export const request = ({
 		requestList?.push(xhr);
 	});
 };
+
+// step5
+
+// step6
+
+// step7
+
+// step8
+

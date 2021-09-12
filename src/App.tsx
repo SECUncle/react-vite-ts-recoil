@@ -12,7 +12,7 @@ import RenderRouter from "./routes";
 
 import "./App.less";
 
-import { useGetCurrentUser } from "./api";
+import { useGetCurrentUser,useGetAccoutIdService } from "./api";
 import { createBrowserHistory } from "history";
 import { useRecoilState } from "recoil";
 import { userState } from "./stores/user";
@@ -25,6 +25,14 @@ const App: React.FC = () => {
   const { locale } = user;
 
   const { data: currentUser, error } = useGetCurrentUser();
+  
+  // const { data: currentAccountId, errors } = useGetAccoutIdService();
+
+
+  // useEffect(() => {
+  //   console.log("currentAccountId: ", currentAccountId);
+  //   // setUser({ ...user, username: currentUser?.username || "", logged: true });
+  // }, [currentAccountId]);
 
   useEffect(() => {
     console.log("currentUser: ", currentUser);
@@ -60,6 +68,12 @@ const App: React.FC = () => {
     setUser({ ...user, logged: false });
     history.push("/login");
   }
+
+  // if (errors) {
+  //   console.log(errors)
+  //   // setUser({ ...user, logged: false });
+  //   // history.push("/login");
+  // }
   return (
     <ConfigProvider locale={getAntdLocale()} componentSize="middle">
       <IntlProvider

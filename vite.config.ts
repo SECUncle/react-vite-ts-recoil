@@ -38,15 +38,20 @@ export default ({ command } : { command: string}) => {
         '@ant-design/icons',
       ],
     },
-    // server: {
-    //   proxy: {
-    //     '/api': {
-    //       target: 'http://127.0.0.1:7770',
-    //       changeOrigin: true,
-    //       rewrite: path => path.replace(/^\/api/, '')
-    //     }
-    //   },
-    // },
+    server: {
+      proxy: {
+        '/project/': {
+          target: 'https://developer.api.autodesk.com/',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/project/, 'project/')
+        },
+        // '/api/': {
+        //   target: 'https://developer.api.autodesk.com/',
+        //   changeOrigin: true,
+        //   rewrite: path => path.replace(/^\/api/, '')
+        // }
+      },
+    },
     plugins: [
       reactRefresh(),
       svgr(),

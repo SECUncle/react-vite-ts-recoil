@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "9ec19774-fb62-4c30-95cd-a5e17c7bccda",
+		"name": "autodesk upload",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1: Find the Hub ID for the BIM 360 Account",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJkYXRhOmNyZWF0ZSIsImRhdGE6d3JpdGUiLCJkYXRhOnJlYWQiXSwiY2xpZW50X2lkIjoib0g4SHN1cHliTTRzMHhBYTl0emhBZFoyS1VkTmVOTFMiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvYWp3dGV4cDYwIiwianRpIjoid05RcjlZeWlJbThwZE1QYWNMMTljT21YYzZmY0ZLd2Jkdm9QSm9zZGZZTE1vYWlJVGd4S05xUGxxYXl0N2xEbyIsInVzZXJpZCI6IlY0V1hKOFBZWlZQQyIsImV4cCI6MTYzMTQyNzI4MX0.fn596p676DL5c0nCbKcPnbQMoNZLVbyw_hR3soaHckILa7r_D_1emBF3lYjR2J4JtM4TymKq8Vi93zei0g8UpBHuiQ5NeXY8f03xWJlCFaTfy92YOwXGQW7-KuFWZ05AGlPQNRxnW9jb3fo7PhSjVNrYxhxYzLwnjeetg_WCf91bYqeO-37RpNwCHYeNUvb3J76yhsvXixCviKQjGY_vcQaLTk9mFm08inDWcDTkAsqdaPMyxgZdpnbNjUqhEG_eFWyzap-Eg7At53ltTaRIUgF-9rgiHJ_J3PUhSlXohQmSHq9VrIWuc1iXLvoLUEgq7KgtZJy4RoAg5w0wV2nucQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://developer.api.autodesk.com/project/v1/hubs",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"project",
+						"v1",
+						"hubs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 2: Find the Project ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJkYXRhOmNyZWF0ZSIsImRhdGE6d3JpdGUiLCJkYXRhOnJlYWQiXSwiY2xpZW50X2lkIjoib0g4SHN1cHliTTRzMHhBYTl0emhBZFoyS1VkTmVOTFMiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvYWp3dGV4cDYwIiwianRpIjoid05RcjlZeWlJbThwZE1QYWNMMTljT21YYzZmY0ZLd2Jkdm9QSm9zZGZZTE1vYWlJVGd4S05xUGxxYXl0N2xEbyIsInVzZXJpZCI6IlY0V1hKOFBZWlZQQyIsImV4cCI6MTYzMTQyNzI4MX0.fn596p676DL5c0nCbKcPnbQMoNZLVbyw_hR3soaHckILa7r_D_1emBF3lYjR2J4JtM4TymKq8Vi93zei0g8UpBHuiQ5NeXY8f03xWJlCFaTfy92YOwXGQW7-KuFWZ05AGlPQNRxnW9jb3fo7PhSjVNrYxhxYzLwnjeetg_WCf91bYqeO-37RpNwCHYeNUvb3J76yhsvXixCviKQjGY_vcQaLTk9mFm08inDWcDTkAsqdaPMyxgZdpnbNjUqhEG_eFWyzap-Eg7At53ltTaRIUgF-9rgiHJ_J3PUhSlXohQmSHq9VrIWuc1iXLvoLUEgq7KgtZJy4RoAg5w0wV2nucQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://developer.api.autodesk.com/project/v1/hubs/:hub_id/projects",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"project",
+						"v1",
+						"hubs",
+						":hub_id",
+						"projects"
+					],
+					"variable": [
+						{
+							"key": "hub_id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 3: Find the Folder ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJkYXRhOmNyZWF0ZSIsImRhdGE6d3JpdGUiLCJkYXRhOnJlYWQiXSwiY2xpZW50X2lkIjoib0g4SHN1cHliTTRzMHhBYTl0emhBZFoyS1VkTmVOTFMiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvYWp3dGV4cDYwIiwianRpIjoid05RcjlZeWlJbThwZE1QYWNMMTljT21YYzZmY0ZLd2Jkdm9QSm9zZGZZTE1vYWlJVGd4S05xUGxxYXl0N2xEbyIsInVzZXJpZCI6IlY0V1hKOFBZWlZQQyIsImV4cCI6MTYzMTQyNzI4MX0.fn596p676DL5c0nCbKcPnbQMoNZLVbyw_hR3soaHckILa7r_D_1emBF3lYjR2J4JtM4TymKq8Vi93zei0g8UpBHuiQ5NeXY8f03xWJlCFaTfy92YOwXGQW7-KuFWZ05AGlPQNRxnW9jb3fo7PhSjVNrYxhxYzLwnjeetg_WCf91bYqeO-37RpNwCHYeNUvb3J76yhsvXixCviKQjGY_vcQaLTk9mFm08inDWcDTkAsqdaPMyxgZdpnbNjUqhEG_eFWyzap-Eg7At53ltTaRIUgF-9rgiHJ_J3PUhSlXohQmSHq9VrIWuc1iXLvoLUEgq7KgtZJy4RoAg5w0wV2nucQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://developer.api.autodesk.com/project/v1/hubs/:hub_id/projects/:project_id/topFolders",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"project",
+						"v1",
+						"hubs",
+						":hub_id",
+						"projects",
+						":project_id",
+						"topFolders"
+					],
+					"variable": [
+						{
+							"key": "hub_id",
+							"value": null
+						},
+						{
+							"key": "project_id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 4: Find the Nested Folder ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "nFRJxzCD8OOUr7hzBwbr06D76zAT",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://developer.api.autodesk.com/authentication/v1/authorize?response_type=token%20%20&client_id=oH8HsupybM4s0xAa9tzhAdZ2KUdNeNLS%20%20&redirect_uri=http://localhost:3000&scope=data:create%20data:read%20data:write",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"authentication",
+						"v1",
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "response_type",
+							"value": "token%20%20"
+						},
+						{
+							"key": "client_id",
+							"value": "oH8HsupybM4s0xAa9tzhAdZ2KUdNeNLS%20%20"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "http://localhost:3000"
+						},
+						{
+							"key": "scope",
+							"value": "data:create%20data:read%20data:write"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 5: Create a Storage Object",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJkYXRhOmNyZWF0ZSIsImRhdGE6d3JpdGUiLCJkYXRhOnJlYWQiXSwiY2xpZW50X2lkIjoib0g4SHN1cHliTTRzMHhBYTl0emhBZFoyS1VkTmVOTFMiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvYWp3dGV4cDYwIiwianRpIjoid05RcjlZeWlJbThwZE1QYWNMMTljT21YYzZmY0ZLd2Jkdm9QSm9zZGZZTE1vYWlJVGd4S05xUGxxYXl0N2xEbyIsInVzZXJpZCI6IlY0V1hKOFBZWlZQQyIsImV4cCI6MTYzMTQyNzI4MX0.fn596p676DL5c0nCbKcPnbQMoNZLVbyw_hR3soaHckILa7r_D_1emBF3lYjR2J4JtM4TymKq8Vi93zei0g8UpBHuiQ5NeXY8f03xWJlCFaTfy92YOwXGQW7-KuFWZ05AGlPQNRxnW9jb3fo7PhSjVNrYxhxYzLwnjeetg_WCf91bYqeO-37RpNwCHYeNUvb3J76yhsvXixCviKQjGY_vcQaLTk9mFm08inDWcDTkAsqdaPMyxgZdpnbNjUqhEG_eFWyzap-Eg7At53ltTaRIUgF-9rgiHJ_J3PUhSlXohQmSHq9VrIWuc1iXLvoLUEgq7KgtZJy4RoAg5w0wV2nucQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/vnd.api+json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://developer.api.autodesk.com/data/v1/projects/:project_id/storage ",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"data",
+						"v1",
+						"projects",
+						":project_id",
+						"storage "
+					],
+					"variable": [
+						{
+							"key": "project_id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 6: Upload the File to the Storage Object",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://developer.api.autodesk.com/oss/v2/buckets/:bucket_key/objects/:object_name ",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"oss",
+						"v2",
+						"buckets",
+						":bucket_key",
+						"objects",
+						":object_name "
+					],
+					"variable": [
+						{
+							"key": "bucket_key",
+							"value": null
+						},
+						{
+							"key": "object_name ",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 7: Create the First Version of the File",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://developer.api.autodesk.com/data/v1/projects/:project_id/items",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"data",
+						"v1",
+						"projects",
+						":project_id",
+						"items"
+					],
+					"variable": [
+						{
+							"key": "project_id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Step 8: Create Additional Versions of the File",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://developer.api.autodesk.com/data/v1/projects/:project_id/versions.",
+					"protocol": "https",
+					"host": [
+						"developer",
+						"api",
+						"autodesk",
+						"com"
+					],
+					"path": [
+						"data",
+						"v1",
+						"projects",
+						":project_id",
+						"versions."
+					],
+					"variable": [
+						{
+							"key": "project_id",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

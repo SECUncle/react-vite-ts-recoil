@@ -1,7 +1,7 @@
 import { MenuList } from "@/models/menu.interface";
 // import { LoginParams, LoginResult } from "@/models/login";
 import { CurrentUserResult } from "@/models/user";
-import { useBatch, useCreate, useGetList, useGetOne, useUpdate } from "./request";
+import { useBatch, useCreate, useGetList, useGetOne, useUpdate, useGetAccoutId } from "./request";
 
 const projectResource = '/projects';
 
@@ -15,6 +15,14 @@ export const useGetCurrentUser = () => {
         "/current/user"
     );
 }
+
+export const useGetAccoutIdService = () => {
+    return useGetOne(
+        "CurrentUsers",
+        "/project/v1/hubs"
+    );
+}
+
 
 export const useGetCurrentMenus = () => {
     return useGetList<MenuList>("CurrentMenuList",
