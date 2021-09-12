@@ -26,14 +26,14 @@ const Index = (props) => {
   });
 
   const [storageObject, setStorageObject] = useState({
-    // bucketKey: "",
-    // objectName: "",
-    // id: "",
-    // storageId: ''
-    bucketKey: "wip.dm.prod",
-    objectName: "e2832c42-33d2-4a7a-9cde-7b0197ec8c8c.png",
-    id: "urn:adsk.objects:os.object:wip.dm.prod/e2832c42-33d2-4a7a-9cde-7b0197ec8c8c.png",
-    storageId: "urn:adsk.wipprod:fs.folder:co.HuMyf_TTQHOo_dXY3ez_mQ",
+    bucketKey: "",
+    objectName: "",
+    id: "",
+    storageId: ''
+    // bucketKey: "wip.dm.prod",
+    // objectName: "e2832c42-33d2-4a7a-9cde-7b0197ec8c8c.png",
+    // id: "urn:adsk.objects:os.object:wip.dm.prod/e2832c42-33d2-4a7a-9cde-7b0197ec8c8c.png",
+    // storageId: "urn:adsk.wipprod:fs.folder:co.HuMyf_TTQHOo_dXY3ez_mQ",
 
     // urn:adsk.objects:os.object:/
   });
@@ -63,7 +63,6 @@ const Index = (props) => {
       const data = response.data;
 
       const { attributes, id } = data[0];
-      console.log("hhhh", response, data[0]);
 
       setHub({
         name: attributes.name,
@@ -82,7 +81,6 @@ const Index = (props) => {
       const data = response.data;
 
       const { attributes, id } = data[0];
-      console.log("hhhh", response, data[0]);
 
       setProject({
         name: attributes.name,
@@ -104,7 +102,6 @@ const Index = (props) => {
       const data = response.data;
 
       const { attributes, id } = data[0];
-      console.log("hhhh", response, data[0]);
 
       setFolder({
         name: attributes.name,
@@ -126,7 +123,6 @@ const Index = (props) => {
       const data = response.data;
 
       const { attributes, id } = data[0];
-      console.log("hhhh", response, data[0]);
 
       setNestedFolder({
         name: attributes.name,
@@ -173,16 +169,13 @@ const Index = (props) => {
         },
       },
     }).then(function (response) {
-      console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
       const data = response.data;
 
       const { relationships, id } = data;
-      console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
       const temp = id.split("urn:adsk.objects:os.object:")[1].split("/");
       const bucketKey = temp[0];
       const objectName = temp[1];
-      console.log("hhhh", response, data[0]);
-      const targetId = relationships.target.id;
+      const targetId = relationships.target.data.id;
       console.log(
         bucketKey,
         objectName,
@@ -200,25 +193,23 @@ const Index = (props) => {
     });
   };
 
-  const uploadFileToStorageObject = async (buketKey, objectName, data) => {
-    console.log(data, "hjhjkhjkhjkhjkfhrht");
+  const uploadFileToStorageObject = async (buketKey, objectName, formData) => {
 
     await axios({
+      headers: {
+        "Content-Type": "image/png",
+      },
       method: "put",
       url: `https://developer.api.autodesk.com/oss/v2/buckets/${buketKey}/objects/${objectName}`,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      data: data,
+      data: formData,
     }).then(function (response) {
       const data = response.data;
 
       // const { relationships, id } = data;
-      console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
+      console.log("ahjfgshuergfuyehjr???");
       // const temp = id.split("urn:adsk.objects:os.object:")[1].split("/");
       // const bucketKey = temp[0];
       // const objectName = temp[1];
-      // console.log("hhhh", response, data[0]);
       // const targetId = relationships.target.id;
       // console.log(bucketKey, objectName, targetId,'hjhgj............................')
 
@@ -237,6 +228,7 @@ const Index = (props) => {
     objectId,
     nestedFolderName
   ) => {
+    console.log('hajfghhjrsgjhgbhjgjhgbhjg')
     const params = {
       jsonapi: { version: "1.0" },
       data: {
@@ -286,6 +278,8 @@ const Index = (props) => {
       ],
     };
 
+    console.log(JSON.stringify(params),'hhjhj')
+
     await axios({
       method: "post",
       url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`,
@@ -298,7 +292,6 @@ const Index = (props) => {
       // const temp = id.split("urn:adsk.objects:os.object:")[1].split("/");
       // const bucketKey = temp[0];
       // const objectName = temp[1];
-      // console.log("hhhh", response, data[0]);
       // const targetId = relationships.target.id;
       // console.log(bucketKey, objectName, targetId,'hjhgj............................')
 
@@ -327,9 +320,9 @@ const Index = (props) => {
     getNestedFolderId(project.id, folder.id);
   }, [folder]);
 
-  // useEffect(() => {
-  //   createStorageObject(nestedFolder, project.id);
-  // }, [nestedFolder]);
+  useEffect(() => {
+    createStorageObject(nestedFolder, project.id);
+  }, [nestedFolder]);
 
   // useEffect(() => {
   //   uploadFileToStorageObject(
@@ -339,36 +332,52 @@ const Index = (props) => {
   // }, [storageObject]);
 
   const onchange = (file) => {
-    let files = document.querySelector("input[type=file]").files[0];
-    console.log(
-      file,
-      "hjsghj",
-      document.querySelector("input[type=file]").files[0]
-    );
+    console.log(file.target, 'hjhkjh')
+    let files = file.target.files[0];
+  
     let data = new FormData();
     data.append("file", files);
 
-    const getObjectURL = (file) => {
-      let url = null;
-      if (window.createObjectURL != undefined) {
-        // basic
-        url = window.createObjectURL(file);
-      } else if (window.webkitURL != undefined) {
-        // webkit or chrome
-        url = window.webkitURL.createObjectURL(file);
-      } else if (window.URL != undefined) {
-        // mozilla(firefox)
-        url = window.URL.createObjectURL(file);
-      }
-      return url;
-    };
-    console.log(getObjectURL(files), "值？？？？？？？？？？");
 
-    uploadFileToStorageObject(
-      storageObject.bucketKey,
-      storageObject.objectName,
-      data
-    );
+    // uploadFileToStorageObject(
+    //   storageObject.bucketKey,
+    //   storageObject.objectName,
+    //   data
+    // );
+
+
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        console.log(this.responseText);
+      }
+    });
+
+    xhr.open("PUT", "https://developer.api.autodesk.com/oss/v2/buckets/wip.dm.prod/objects/06101662-4511-4423-ae4e-8e70182a9f4f.png");
+    xhr.setRequestHeader("Authorization", `Bearer ${localStorage.getItem('token')}`);
+    xhr.setRequestHeader("Content-Type", "image/png");
+
+    xhr.send(data);
+
+    xhr.onload = (e) => {
+      if (e.currentTarget.status === 200) {
+        const result =JSON.parse(e.target.response) 
+
+        console.log('hjjkhkhjhresult', result, result.objectId,typeof(result),result.location)
+        setFileObject({id:result.objectId,name:''})
+       
+      } else {
+        // reject(new Error('上传失败'));
+      }
+    };
+    xhr.onerror = () => {
+      // reject(new Error('网络好像出问题啦~'));
+    };
+
+
   };
 
   useEffect(() => {
@@ -420,8 +429,8 @@ const Index = (props) => {
         <p>
           <input type="file" onChange={onchange} />
         </p>
-        <p>object name: </p>
-        <p>object ID: </p>
+        <p>object name: {nestedFolder.name}</p>
+        <p>object ID: {fileObject.id}</p>
       </li>
       <li>
         <span>step7</span>

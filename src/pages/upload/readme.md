@@ -112,54 +112,7 @@
 }%      
 
 
-- step7 curl -X POST -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJkYXRhOmNyZWF0ZSIsImRhdGE6d3JpdGUiLCJkYXRhOnJlYWQiXSwiY2xpZW50X2lkIjoib0g4SHN1cHliTTRzMHhBYTl0emhBZFoyS1VkTmVOTFMiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvYWp3dGV4cDYwIiwianRpIjoib2ZqZmc2MzlrTmNoRWc0ckxXVkpPUUxWenBLSGlYSFQyQmMyYlBXTUZFMGptN0hOMm1yak1NR1ZTVlE2cHVaZyIsInVzZXJpZCI6IlY0V1hKOFBZWlZQQyIsImV4cCI6MTYzMTQ0Nzk0OH0.WnkMlunUrfGd2zXYL2UH_efWAUoMQv-Y5OXeGoSWfbBsj2jpaRCVlycj09AA9qDp4LqEkCFLbz6-v5eITnNlGFFhi9uF03R-mBHg-xDU9farj1Xr_uIv8GGigbqnTX50rju7vj1VgDMxT_fJxRJJgT-pYgQCUmFesMGIznEUzqhxdsU_07h3ainUqZyMBAo14MNJI0Mv9LFAqSR1wuC-RjHdJPx72mlGgxl0TMnaNazJp-S1RCEB6_z-QTXYdpLS1Lm3Ov-lL_xNDzqsiOlmiihBUEH6XHgbjlVRr3wW6baOs46VxI8fwJQTA07fVcJcqL5_m95Ve2XPdM_IMHI07Q"  -H "Content-Type: application/vnd.api+json" -H "Accept: application/vnd.api+json" "https://developer.api.autodesk.com/data/v1/projects/b.91af84e7-fc2c-4d84-bce2-6d9fe8d2084a/items" -d '{
-
-    "jsonapi": { "version": "1.0" },
-    "data": {
-      "type": "items",
-      "attributes": {
-        "displayName": "WangYaJu.png",
-        "extension": {
-          "type": "items:autodesk.bim360:File",
-          "version": "1.0"
-        }
-      },
-      "relationships": {
-        "tip": {
-          "data": {
-            "type": "versions", "id": "1"
-          }
-        },
-        "parent": {
-          "data": {
-            "type": "folders",
-            "id": "urn:adsk.wipprod:fs.folder:co.h1gPOVSWS6GNk9uwCMqCXA"
-          }
-        }
-      }
-    },
-    "included": [
-      {
-        "type": "versions",
-        "id": "1",
-        "attributes": {
-          "name": "WangYaJu.png",
-          "extension": {
-            "type": "versions:autodesk.bim360:File",
-            "version": "1.0"
-          }
-        },
-        "relationships": {
-          "storage": {
-            "data": {
-              "type": "objects",
-              "id": "urn:adsk.objects:os.object:wip.dm.prod/e2832c42-33d2-4a7a-9cde-7b0197ec8c8c.png"
-            }
-          }
-        }
-      }
-    ]
-  }'
+- step7 curl -X POST -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IlU3c0dGRldUTzlBekNhSzBqZURRM2dQZXBURVdWN2VhIn0.eyJzY29wZSI6WyJkYXRhOmNyZWF0ZSIsImRhdGE6d3JpdGUiLCJkYXRhOnJlYWQiXSwiY2xpZW50X2lkIjoib0g4SHN1cHliTTRzMHhBYTl0emhBZFoyS1VkTmVOTFMiLCJhdWQiOiJodHRwczovL2F1dG9kZXNrLmNvbS9hdWQvYWp3dGV4cDYwIiwianRpIjoieW13VHJuSkprdmdvMkdwdWtGd0VFVzNQb29IUkxVVGI4VkhmYTNta01zS1JIYkJwbUJyNFVTRUc5TGF6N0xqWCIsInVzZXJpZCI6IlY0V1hKOFBZWlZQQyIsImV4cCI6MTYzMTQ1NzUzMn0.cOXRw1X1ADknP9Oao9BiEMwGaPKvo2CjB2PEn7Jhcjctc5evb7a-3tX0iGnK9wzBkTljQTWziWpLGJuZPwg3cCGwpJfj0g302pFQ1G6EFk5ZD38eLKirx3pwpm4ZsVERfBS4Qrq9isI77_J4eesFaaGaND9CC3dB_a4OoPJujEV07SiE9KH8cMkf32kvUQGW4U5pUqVa3UyvzOaGm-h2gNeXVP81aMGBoZBjcruQfro5uXGyrJVa8eiLRkZNDusEMD_S_fOEd0XkZWJ-9hUWEpeOeXsof5Bks2mfhg7hmBjtZj5eZXg7OXAnadHeSBJs-xngsK2i06Y5BZUP7UzdlA"  -H "Content-Type: application/vnd.api+json" -H "Accept: application/vnd.api+json" "https://developer.api.autodesk.com/data/v1/projects/b.91af84e7-fc2c-4d84-bce2-6d9fe8d2084a/items" -d '{"jsonapi":{"version":"1.0"},"data":{"type":"items","attributes":{"displayName":"WangYaJu.png","extension":{"type":"items:autodesk.bim360:File","version":"1.0"}},"relationships":{"tip":{"data":{"type":"versions","id":"1"}},"parent":{"data":{"type":"folders","id":"urn:adsk.wipprod:fs.folder:co.h1gPOVSWS6GNk9uwCMqCXA"}}}},"included":[{"type":"versions","id":"1","attributes":{"name":"WangYaJu.png","extension":{"type":"versions:autodesk.bim360:File","version":"1.0"}},"relationships":{"storage":{"data":{"type":"objects","id":"urn:adsk.objects:os.object:wip.dm.prod/0b4708b8-1746-4b26-87ec-78fdec1aa080.png"}}}}]}'
 
 
 

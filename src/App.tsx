@@ -50,8 +50,8 @@ const App: React.FC = () => {
       localStorage.setItem("token", params['access_token']);
 
     }
-    // history.push("/upload/");
-    // window.location.hash = ''
+    history.push("/upload/");
+    window.location.hash = ''
   }, [window.location]);
 
   // useEffect(() => {
