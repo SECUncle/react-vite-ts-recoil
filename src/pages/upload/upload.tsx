@@ -239,7 +239,8 @@ function UploadPage() {
 
   const computeHash = (fileChunks) => {
     return new Promise((resolve, reject) => {
-      const hashWorker = new Worker("@/assets/workers/hash.js");
+      const hashWorker = new Worker("../../assets/workers/hash.js");
+
       hashWorker.postMessage({ fileChunks });
       hashWorker.onmessage = (e) => {
         const { percentage, hash } = e.data;
