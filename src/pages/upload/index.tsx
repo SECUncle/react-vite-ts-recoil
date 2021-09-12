@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import UploadPage from "./upload";
 import axios from "../../api/request";
 
+import { useGetCurrentUser, useGetAccoutIdService } from "../../api";
+
+
 
 interface hubType {
   name: string,
@@ -220,7 +223,16 @@ const Index = (props: any) => {
 
   const [file, setFile] = useState(null);
 
- 
+
+  // const { data: currentAccountId } = useGetAccoutIdService();
+
+
+  // useEffect(() => {
+  //   console.log("currentAccountId: ", currentAccountId);
+  //   // setUser({ ...user, username: currentUser?.username || "", logged: true });
+  // }, [currentAccountId]);
+
+
 
   const getAccountId = async () => {
     await axios({
@@ -312,7 +324,7 @@ const Index = (props: any) => {
       method: "post",
       url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/storage`,
       data: params,
-    }).then(function (response) {
+    }).then(function (response: storageObjectResult) {
       const data = response.data;
 
       const { relationships, id } = data;
@@ -349,94 +361,94 @@ const Index = (props: any) => {
 
   const createFirstVersionFile = async (
     projectId: string,
-      folderId: string,
-      objectId: string,
-      nestedFolderName: string
-    ) => {
-      // console.log("hajfghhjrsgjhgbhjgjhgbhjg");
-      const params: createFirstVersionToFileParams = {
-        jsonapi: { version: "1.0" },
-        data: {
-          type: "items",
+    folderId: string,
+    objectId: string,
+    nestedFolderName: string
+  ) => {
+    // console.log("hajfghhjrsgjhgbhjgjhgbhjg");
+    const params: createFirstVersionToFileParams = {
+      jsonapi: { version: "1.0" },
+      data: {
+        type: "items",
+        attributes: {
+          displayName: nestedFolderName + ".png",
+          extension: {
+            type: "items:autodesk.bim360:File",
+            version: "1.0",
+          },
+        },
+        relationships: {
+          tip: {
+            data: {
+              type: "versions",
+              id: "1",
+            },
+          },
+          parent: {
+            data: {
+              type: "folders",
+              id: folderId,
+            },
+          },
+        },
+      },
+      included: [
+        {
+          type: "versions",
+          id: "1",
           attributes: {
-            displayName: nestedFolderName + ".png",
+            name: nestedFolderName + ".png",
             extension: {
-              type: "items:autodesk.bim360:File",
+              type: "versions:autodesk.bim360:File",
               version: "1.0",
             },
           },
           relationships: {
-            tip: {
+            storage: {
               data: {
-                type: "versions",
-                id: "1",
-              },
-            },
-            parent: {
-              data: {
-                type: "folders",
-                id: folderId,
+                type: "objects",
+                id: objectId,
               },
             },
           },
         },
-        included: [
-          {
-            type: "versions",
-            id: "1",
-            attributes: {
-              name: nestedFolderName + ".png",
-              extension: {
-                type: "versions:autodesk.bim360:File",
-                version: "1.0",
-              },
-            },
-            relationships: {
-              storage: {
-                data: {
-                  type: "objects",
-                  id: objectId,
-                },
-              },
-            },
-          },
-        ],
-      };
-
-      // console.log(JSON.stringify(params), "hhjhj");
-
-      // await axios({
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   method: "post",
-      //   url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`,
-      //   data: params,
-      // }).then(function (response) {
-      //   const data = response.data;
-
-      //   // const { relationships, id } = data;
-      //   console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
-      // });
-
-      var data = JSON.stringify(params);
-
-      var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
-
-      xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === 4) {
-          console.log(this.responseText);
-        }
-      });
-
-      xhr.open("POST", `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`);
-      xhr.setRequestHeader("Authorization",
-        `Bearer ${localStorage.getItem("token")}`)
-      xhr.setRequestHeader("Content-Type", "application/json");
-
-      xhr.send(data);
+      ],
     };
+
+    // console.log(JSON.stringify(params), "hhjhj");
+
+    // await axios({
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   method: "post",
+    //   url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`,
+    //   data: params,
+    // }).then(function (response) {
+    //   const data = response.data;
+
+    //   // const { relationships, id } = data;
+    //   console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
+    // });
+
+    var data = JSON.stringify(params);
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+
+    xhr.addEventListener("readystatechange", function () {
+      if (this.readyState === 4) {
+        console.log(this.responseText);
+      }
+    });
+
+    xhr.open("POST", `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`);
+    xhr.setRequestHeader("Authorization",
+      `Bearer ${localStorage.getItem("token")}`)
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send(data);
+  };
 
   useEffect(() => {
     getAccountId()
@@ -458,7 +470,7 @@ const Index = (props: any) => {
     nestedFolder && project.id && createStorageObject(nestedFolder, project.id);
   }, [nestedFolder]);
 
-  
+
 
   const onchange = (file: { target: { files: any[]; }; }) => {
     let files = file.target.files[0];

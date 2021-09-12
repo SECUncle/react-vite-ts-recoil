@@ -33,13 +33,7 @@ const App: React.FC = () => {
   // const { pathname } = useLocation();
 
 
-  // const { data: currentAccountId, errors } = useGetAccoutIdService();
 
-
-  // useEffect(() => {
-  //   console.log("currentAccountId: ", currentAccountId);
-  //   // setUser({ ...user, username: currentUser?.username || "", logged: true });
-  // }, [currentAccountId]);
 
 
   useEffect(() => {
@@ -53,7 +47,7 @@ const App: React.FC = () => {
     if (window.location.hash.includes('access_token')) {
       localStorage.setItem("token", params['access_token']);
     }
-    history.replace("/upload/");
+    history.push("/upload/");
     // window.location.href = 'localhost:3000/upload/'
     window.location.hash = ''
   }, [window.location]);

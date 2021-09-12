@@ -5,13 +5,12 @@ import { useContext } from 'react';
 import { createBrowserHistory } from 'history';
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import qs from 'qs';
-import { result } from 'cypress/types/lodash';
 
 const history = createBrowserHistory();
 
 console.log('baseurl:', import.meta.env.VITE_BASE_URL);
 const axios = Axios.create({
-    // baseURL: import.meta.env.VITE_BASE_URL + '',
+    // baseURL:   '/apis',
     timeout: 1000,
     // headers: {
     //     // 'Content-Type': 'application/json',
@@ -34,10 +33,10 @@ axios.interceptors.response.use(
     (response) => {
         const data = response.data;
         // console.log('response:', response,'shdfjkghjkhjk');
-        if (response.status === 200 ||  response.status === 201) {
+        if (response.status === 200 || response.status === 201) {
             return data;
         }
-       
+
 
         notification.error({
             message: `请求错误 ${response.statusText}: ${response}`,
@@ -162,7 +161,7 @@ const useGetList = <T>(key: string, url: string, pagination?: any, filters?: any
     const service = async () => {
         let params: listParams = {};
 
-        params = {...transformPagination(pagination)};
+        params = { ...transformPagination(pagination) };
         params.filter = transformFilters(filters);
         params.order = transformSorter(sorter);
 

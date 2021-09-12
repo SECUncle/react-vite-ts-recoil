@@ -40,10 +40,10 @@ export default ({ command } : { command: string}) => {
     },
     server: {
       proxy: {
-        '/project/': {
-          target: 'https://developer.api.autodesk.com/',
+        '^/apis/': {
+          target: 'http://developer.api.autodesk.com/',
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/project/, '')
+          pathRewrite: path => path.replace(/^\/apis/, '')
         },
         // '/api/': {
         //   target: 'https://developer.api.autodesk.com/',
