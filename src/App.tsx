@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useMemo } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter,useLocation } from "react-router-dom";
 import { IntlProvider } from "react-intl";
 
 import { localeConfig } from "@/config/locale";
@@ -9,6 +9,8 @@ import zhCN from "antd/es/locale/zh_CN";
 import moment from "moment";
 import "moment/locale/zh-cn";
 import RenderRouter from "./routes";
+
+
 
 import "./App.less";
 
@@ -25,6 +27,8 @@ const App: React.FC = () => {
   const { locale } = user;
 
   const { data: currentUser, error } = useGetCurrentUser();
+  // const { pathname } = useLocation();
+
   
   // const { data: currentAccountId, errors } = useGetAccoutIdService();
 
@@ -33,6 +37,24 @@ const App: React.FC = () => {
   //   console.log("currentAccountId: ", currentAccountId);
   //   // setUser({ ...user, username: currentUser?.username || "", logged: true });
   // }, [currentAccountId]);
+
+
+  useEffect(() => {
+    console.log("hjghj", window.location);
+    let params = {},
+      queryString = location.hash.substring(1),
+      regex = /([^&=]+)=([^&]*)/g,
+      m = [];
+    while ((m = regex.exec(queryString))) {
+      params[m[1]] = m[2];
+    }
+    if(window.location.hash.includes('access_token')){
+      localStorage.setItem("token", params['access_token']);
+
+    }
+    history.push("/upload/");
+    window.location.hash = ''
+  }, [window.location]);
 
   useEffect(() => {
     console.log("currentUser: ", currentUser);

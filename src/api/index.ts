@@ -15,13 +15,76 @@ export const useGetCurrentUser = () => {
         "/current/user"
     );
 }
-
+// step1
 export const useGetAccoutIdService = () => {
     return useGetOne(
         "CurrentUsers",
         "/project/v1/hubs"
     );
 }
+//step2
+export const useGetProjectIdService = () => {
+    return useGetOne(
+        "CurrentUsers",
+        "/project/v1/hubs"
+    );
+}
+
+// step3
+export const useGetFindFolderIdService = () => {
+    return useGetOne(
+        "CurrentUsers",
+        "/project/v1/hubs"
+    );
+}
+
+//step4
+export const useGetFindNestedFolderIdService = () => {
+    return useGetOne(
+        "CurrentUsers",
+        "/project/v1/hubs"
+    );
+}
+
+//step5
+export const useCreateStorageService = () => {
+    return useGetOne(
+        "CurrentUsers",
+        "/project/v1/hubs"
+    );
+}
+
+
+//step6
+
+export const useUploadFileToStorageService = () => {
+    return useGetOne(
+        "CurrentUsers",
+        "/project/v1/hubs"
+    );
+}
+
+// step7
+
+export const useCreateFirstVersionService = () => {
+    return useGetOne(
+        "CurrentUsers",
+        "/project/v1/hubs"
+    );
+}
+
+
+// step8
+
+export const useCreateAddtionalVersionService = () => {
+    return useGetOne(
+        "CurrentUsers",
+        "/project/v1/hubs"
+    );
+}
+
+
+
 
 
 export const useGetCurrentMenus = () => {
@@ -49,6 +112,9 @@ export const useUpdateProject = () => {
 export const useBatchDeleteProject = () => {
     return useBatch(projectResource + ':batchDelete');
 }
+
+
+
 
 
 export const useCreateStorage = () => {
