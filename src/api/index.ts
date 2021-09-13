@@ -62,8 +62,9 @@ export const useBatchDeleteProject = () => {
 };
 
 // step1
-export const useGetAccoutIdService = () => {
-  return useGetOne<hubResult>("GetAccountId", "/project/v1/hubs");
+
+export const getAccoutIdService = () => {
+  return getServeice<hubResult>("/project/v1/hubs");
 };
 //step2
 export const getProjectIdService = (hubId: hubType) => {

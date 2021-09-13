@@ -25,7 +25,39 @@ const IconMap: { [key: string]: React.ReactNode } = {
 };
 
 const LayoutPage: FC = ({ children }) => {
-  const { data: menuList, error } = useGetCurrentMenus();
+  // const { data: menuList, error } = useGetCurrentMenus();
+  const menuList = [
+
+    {
+      path: '/upload',
+      name: '上传',
+      locale: 'menu.upload',
+      icon: 'heart',
+    },
+    {
+      path: '/uploadLocation',
+      name: '本地上传',
+      locale: 'menu.locationUpload',
+      icon: 'heart',
+    },
+    {
+      path: '/project',
+      name: 'Project',
+      icon: 'smile',
+      locale: 'menu.project',
+      children: [
+        {
+          path: '/project/list',
+          name: 'Project List',
+          locale: 'menu.project.list',
+          icon: 'smile',
+        },
+      ],
+    },
+    
+   
+  
+  ]
   
   const [user, setUser] = useRecoilState(userState);
   const [pathname, setPathname] = useState("/welcome");

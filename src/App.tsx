@@ -30,10 +30,6 @@ const App: React.FC = () => {
   const { locale } = user;
 
   // const { data: currentUser, error } = useGetCurrentUser();
-  // const { pathname } = useLocation();
-
-
-
 
 
   useEffect(() => {
@@ -47,9 +43,7 @@ const App: React.FC = () => {
     if (window.location.hash.includes('access_token')) {
       localStorage.setItem("token", params['access_token']);
     }
-    history.push("/upload/");
-    // window.location.href = 'localhost:3000/upload/'
-    window.location.hash = ''
+   
   }, [window.location]);
 
   // useEffect(() => {

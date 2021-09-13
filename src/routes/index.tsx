@@ -18,13 +18,8 @@ import LoginPage from '@/pages/login'
 import Project from "@/pages/project";
 
 const routeList: PartialRouteObject[] = [
-
   {
-    path: "/upload",
-    element: <WrapperRouteComponent element={<UploadPage />} />,
-  },
-  {
-    path: "/auth/login",
+    path: "/login",
     element: <WrapperRouteComponent element={<LoginPage />} />,
   },
   {
@@ -43,7 +38,7 @@ const routeList: PartialRouteObject[] = [
         path: "/project/list",
         element: <WrapperRouteComponent element={<Project />} />,
       },
-      
+
     ],
   },
 ];

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import UploadPage from "./upload";
 
 import {
-  useGetAccoutIdService,
+  getAccoutIdService,
   getProjectIdService,
   getFindFolderIdService,
   getFindNestedFolderIdService,
   createStorageService,
   createFirstVersionService,
+  
 } from "../../api";
 import {
   createFirstVersionToFileParams,
@@ -57,18 +58,17 @@ const Index = (props: any) => {
 
   const [file, setFile] = useState(null);
 
-  const { data: accountIdResonse } = useGetAccoutIdService();
-
-
-  useEffect(() => {
-
-    const { data } = accountIdResonse;
+  const getAccountId = async () => {
+    let response = await getAccoutIdService();
+    const data = response.data;
     const { attributes, id } = data[0];
     setHub({
       name: attributes.name,
       id: id,
     });
-  }, [accountIdResonse]);
+  };
+
+ 
 
   const getProjectId = async (hubId: hubType) => {
     let response = await getProjectIdService(hubId);
@@ -238,9 +238,9 @@ const Index = (props: any) => {
 
   };
 
-  // useEffect(() => {
-  //   getAccountId()
-  // }, []);
+  useEffect(() => {
+    getAccountId()
+  }, []);
 
   useEffect(() => {
     hub.id && getProjectId(hub.id);
@@ -322,7 +322,7 @@ const Index = (props: any) => {
       <li>
         <span>step6</span>
         <p>
-          <input type="file" onChange={onchange} disabled={!storageObject.bucketKey && !storageObject.objectName}/>
+          <input type="file" onChange={onchange} disabled={!storageObject.bucketKey && !storageObject.objectName} />
         </p>
         <p>object name: {nestedFolder.name}</p>
         <p>object ID: {fileObject.id}</p>
