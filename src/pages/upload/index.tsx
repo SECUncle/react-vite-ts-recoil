@@ -1,192 +1,26 @@
 import React, { useEffect, useState } from "react";
 import UploadPage from "./upload";
-import axios from "../../api/request";
 
-import { useGetCurrentUser, useGetAccoutIdService } from "../../api";
+import {
+  useGetAccoutIdService,
+  getProjectIdService,
+  getFindFolderIdService,
+  getFindNestedFolderIdService,
+  createStorageService,
+  createFirstVersionService,
+} from "../../api";
+import {
+  createFirstVersionToFileParams,
+  createStorageParams,
+  fileObjectType,
+  storageObjectType,
+  hubType,
+  projectType,
+  folderType,
+  nestedFolderType,
+} from "@models/upload.interface";
 
-
-
-interface hubType {
-  name: string,
-  id: string
-}
-
-
-interface attributesType {
-  name: string,
-  displayName?: string,
-  extension: {
-    type: string,
-    version: string,
-    schema?: {
-      href: string
-    },
-    data?: { [key: string]: string | Array<string> }
-  }
-}
-interface hub {
-  type: string,
-  id: string,
-  attributes?: attributesType
-}
-interface hubResult {
-
-  jsonapi?: {
-    version: string
-  },
-  links?: {
-    self: {
-      href: string
-    }
-  },
-  data: Array<hub>
-
-
-}
-
-
-interface projectType {
-  name: string,
-  id: string
-}
-
-interface projectResult {
-  jsonapi?: {
-    version: string
-  },
-  links?: {
-    self: {
-      href: string
-    }
-  },
-  data: Array<hub>
-
-}
-interface folderType {
-  name: string,
-  id: string
-}
-
-interface folderResult {
-  jsonapi?: {
-    version: string
-  },
-  links?: {
-    self: {
-      href: string
-    }
-  },
-  data: Array<hub>
-
-}
-interface nestedFolderType {
-  name: string
-  id: string,
-}
-
-interface nestedFolderResult {
-  jsonapi?: {
-    version: string
-  },
-  links?: {
-    self: {
-      href: string
-    }
-  },
-  data: Array<hub>
-
-}
-
-
-interface createStorageParams {
-  jsonapi?: {
-    version: string
-  },
-  data: {
-    type: string,
-    attributes: {
-      name: string
-    },
-    relationships: {
-      target: {
-        data: {
-          type: string,
-          id: string
-        }
-      }
-    }
-  }
-}
-interface storageObjectType {
-  bucketKey: string,
-  objectName: string,
-  id: string,
-  storageId: string,
-}
-
-interface storageObjectResult {
-  jsonapi?: {
-    version: string
-  },
-  links?: {
-    self: {
-      href: string
-    }
-  },
-  data: hub
-
-}
-
-interface dataType {
-  type: string,
-  id: string
-}
-
-
-interface included {
-  type: string,
-  id: string,
-  attributes: attributesType,
-  relationships: {
-    storage: {
-      data: dataType
-    }
-
-  }
-}
-interface createFirstVersionToFileParams {
-  jsonapi?: {
-    version: string
-  },
-  data: {
-    type: string,
-    attributes: attributesType,
-    relationships: {
-      tip: {
-        data: dataType
-      },
-      parent: {
-        data: dataType
-      }
-    },
-  },
-  included: Array<included>
-}
-
-interface fileObjectType {
-  name: string,
-  id: string
-}
-
-interface fileObjectResult {
-  bucketKey: string,
-  sha1?: string,
-  size: string,
-  contentType?: string,
-  location?: string
-
-}
-
+import { uploadRequest } from "./request";
 
 const Index = (props: any) => {
   const [hub, setHub] = useState<hubType>({
@@ -223,88 +57,57 @@ const Index = (props: any) => {
 
   const [file, setFile] = useState(null);
 
-
-  // const { data: currentAccountId } = useGetAccoutIdService();
-
-
-  // useEffect(() => {
-  //   console.log("currentAccountId: ", currentAccountId);
-  //   // setUser({ ...user, username: currentUser?.username || "", logged: true });
-  // }, [currentAccountId]);
+  const { data: accountIdResonse } = useGetAccoutIdService();
 
 
+  useEffect(() => {
 
-  const getAccountId = async () => {
-    await axios({
-      method: "get",
-      url: "https://developer.api.autodesk.com/project/v1/hubs",
-    }).then(function (response: hubResult): void {
-      const data = response.data;
-
-      const { attributes, id } = data[0];
-
-      setHub({
-        name: attributes.name,
-        id: id,
-      });
+    const { data } = accountIdResonse;
+    const { attributes, id } = data[0];
+    setHub({
+      name: attributes.name,
+      id: id,
     });
-  };
+  }, [accountIdResonse]);
 
   const getProjectId = async (hubId: hubType) => {
-    await axios({
-      method: "get",
-      url: `https://developer.api.autodesk.com/project/v1/hubs/${hubId}/projects`,
-    }).then(function (response: projectResult) {
-      const data = response.data;
-
-      const { attributes, id } = data[0];
-
-      setProject({
-        name: attributes.name,
-        id: id,
-      });
+    let response = await getProjectIdService(hubId);
+    const data = response.data;
+    const { attributes, id } = data[0];
+    setProject({
+      name: attributes.name,
+      id: id,
     });
   };
 
   const getFolderId = async (hubId: hubType, projectId: projectType) => {
-    //  console.log(hubId, projectId, 'hubId, projectId')
+    let response = await getFindFolderIdService(hubId, projectId);
 
-    await axios({
-      method: "get",
-      url: `https://developer.api.autodesk.com/project/v1/hubs/${hubId}/projects/${projectId}/topFolders`,
-
-      // responseType:'stream'
-    }).then(function (response: folderResult) {
-      const data = response.data;
-
-      const { attributes, id } = data[0];
-
-      setFolder({
-        name: attributes.name,
-        id: id,
-      });
+    const data = response.data;
+    const { attributes, id } = data[0];
+    setFolder({
+      name: attributes.name,
+      id: id,
     });
   };
 
-  const getNestedFolderId = async (projectId: projectType, folderId: folderType) => {
-
-    await axios({
-      method: "get",
-      url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/folders/${folderId}/contents`,
-    }).then(function (response) {
-      const data = response.data;
-
-      const { attributes, id } = data[0];
-
-      setNestedFolder({
-        name: attributes.name,
-        id: id,
-      });
+  const getNestedFolderId = async (
+    projectId: projectType,
+    folderId: folderType
+  ) => {
+    let response = await getFindNestedFolderIdService(projectId, folderId);
+    const data = response.data;
+    const { attributes, id } = data[0];
+    setNestedFolder({
+      name: attributes.name,
+      id: id,
     });
   };
 
-  const createStorageObject = async (nestedFolder: nestedFolderType, projectId: string) => {
-
+  const createStorageObject = async (
+    nestedFolder: nestedFolderType,
+    projectId: string
+  ) => {
     const params: createStorageParams = {
       jsonapi: { version: "1.0" },
       data: {
@@ -320,43 +123,44 @@ const Index = (props: any) => {
       },
     };
 
-    await axios({
-      method: "post",
-      url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/storage`,
-      data: params,
-    }).then(function (response: storageObjectResult) {
-      const data = response.data;
+    let response = await createStorageService(projectId, params);
+    const data = response.data;
+    const { relationships, id } = data;
+    const temp = id.split("urn:adsk.objects:os.object:")[1].split("/");
+    const [bucketKey, objectName] = temp;
+    const targetId = relationships.target.data.id;
 
-      const { relationships, id } = data;
-      const temp = id.split("urn:adsk.objects:os.object:")[1].split("/");
-      const bucketKey = temp[0];
-      const objectName = temp[1];
-      const targetId = relationships.target.data.id;
-
-
-      setStorageObject({
-        bucketKey: bucketKey,
-        objectName: objectName,
-        id: targetId,
-        storageId: id,
-      });
+    setStorageObject({
+      bucketKey: bucketKey,
+      objectName: objectName,
+      id: targetId,
+      storageId: id,
     });
   };
 
-  const uploadFileToStorageObject = async (buketKey: any, objectName: any, formData: any) => {
-    await axios({
-      headers: {
-        "Content-Type": "image/png",
-      },
+  const uploadFileToStorageObject = async (
+    buketKey: any,
+    objectName: any,
+    formData: any
+  ) => {
+    // TODO serveice上传不能共用封装
+    const response = await uploadRequest({
+      url: `${import.meta.env.VITE_BASE_URL
+        }/oss/v2/buckets/${buketKey}/objects/${objectName}`,
       method: "put",
-      url: `https://developer.api.autodesk.com/oss/v2/buckets/${buketKey}/objects/${objectName}`,
       data: formData,
-    }).then(function (response) {
-      const data = response.data;
-
-      // const { relationships, id } = data;
-      console.log("ahjfgshuergfuyehjr???");
+      headers: {
+        "Content-Type": "image/png,image/jpg",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
+
+    try {
+      const result = JSON.parse(response.data);
+      setFileObject({ id: result.objectId, name: "" });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const createFirstVersionFile = async (
@@ -415,44 +219,28 @@ const Index = (props: any) => {
       ],
     };
 
-    // console.log(JSON.stringify(params), "hhjhj");
+    // let response = await createFirstVersionService(projectId, params)
 
-    // await axios({
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   method: "post",
-    //   url: `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`,
-    //   data: params,
-    // }).then(function (response) {
-    //   const data = response.data;
-
-    //   // const { relationships, id } = data;
-    //   console.log("ahjfgshuergfuyehjr<<<<<<<<<<<<<<<<<");
-    // });
-
-    var data = JSON.stringify(params);
-
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        console.log(this.responseText);
-      }
+    const response = await uploadRequest({
+      url: `${import.meta.env.VITE_BASE_URL
+        }/data/v1/projects/${projectId}/items`,
+      method: "post",
+      data: JSON.stringify(params),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     });
 
-    xhr.open("POST", `https://developer.api.autodesk.com/data/v1/projects/${projectId}/items`);
-    xhr.setRequestHeader("Authorization",
-      `Bearer ${localStorage.getItem("token")}`)
-    xhr.setRequestHeader("Content-Type", "application/json");
+    if (response) {
+      console.log("upload first version");
+    }
 
-    xhr.send(data);
   };
 
-  useEffect(() => {
-    getAccountId()
-  }, []);
+  // useEffect(() => {
+  //   getAccountId()
+  // }, []);
 
   useEffect(() => {
     hub.id && getProjectId(hub.id);
@@ -470,62 +258,30 @@ const Index = (props: any) => {
     nestedFolder && project.id && createStorageObject(nestedFolder, project.id);
   }, [nestedFolder]);
 
-
-
-  const onchange = (file: { target: { files: any[]; }; }) => {
+  const onchange = (file: { target: { files: any[] } }) => {
     let files = file.target.files[0];
 
     let data = new FormData();
+
     data.append("file", files);
 
-    // uploadFileToStorageObject(
-    //   storageObject.bucketKey,
-    //   storageObject.objectName,
-    //   data
-    // );
+    console.log();
 
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
-
-    xhr.addEventListener("readystatechange", function () {
-      if (this.readyState === 4) {
-        console.log(this.responseText);
-      }
-    });
-
-    xhr.open(
-      "PUT",
-      "https://developer.api.autodesk.com/oss/v2/buckets/wip.dm.prod/objects/06101662-4511-4423-ae4e-8e70182a9f4f.png"
+    uploadFileToStorageObject(
+      storageObject.bucketKey,
+      storageObject.objectName,
+      data
     );
-    xhr.setRequestHeader(
-      "Authorization",
-      `Bearer ${localStorage.getItem("token")}`
-    );
-    xhr.setRequestHeader("Content-Type", "image/png");
-
-    xhr.send(data);
-
-    xhr.onload = (e) => {
-      if (e.currentTarget.status === 200) {
-        const result = JSON.parse(e.target.response);
-
-        setFileObject({ id: result.objectId, name: "" });
-      } else {
-        // reject(new Error('上传失败'));
-      }
-    };
-    xhr.onerror = () => {
-      // reject(new Error('网络好像出问题啦~'));
-    };
   };
 
   useEffect(() => {
-    fileObject.id && createFirstVersionFile(
-      project.id,
-      folder.id,
-      storageObject.storageId,
-      nestedFolder.name
-    );
+    fileObject.id &&
+      createFirstVersionFile(
+        project.id,
+        folder.id,
+        storageObject.storageId,
+        nestedFolder.name
+      );
   }, [fileObject]);
 
   return (
@@ -566,7 +322,7 @@ const Index = (props: any) => {
       <li>
         <span>step6</span>
         <p>
-          <input type="file" onChange={onchange} />
+          <input type="file" onChange={onchange} disabled={!storageObject.bucketKey && !storageObject.objectName}/>
         </p>
         <p>object name: {nestedFolder.name}</p>
         <p>object ID: {fileObject.id}</p>

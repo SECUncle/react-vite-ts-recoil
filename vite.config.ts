@@ -39,17 +39,25 @@ export default ({ command } : { command: string}) => {
       ],
     },
     server: {
+    cors: true,
       proxy: {
-        '^/apis/': {
-          target: 'http://developer.api.autodesk.com/',
-          changeOrigin: true,
-          pathRewrite: path => path.replace(/^\/apis/, '')
-        },
+        // '^/apis/': {
+        //   target: 'http://developer.api.autodesk.com/',
+        //   changeOrigin: true,
+        //   pathRewrite: path => path.replace(/^\/apis/, '')
+        // },
         // '/api/': {
         //   target: 'https://developer.api.autodesk.com/',
         //   changeOrigin: true,
         //   rewrite: path => path.replace(/^\/api/, '')
         // }
+
+        '/api': {
+          target: 'http://www.baidu.com',
+          changeOrigin: true,
+          // ws: true, 
+          // rewrite: path => path.replace(/^\/api/, '')
+        }
       },
     },
     plugins: [
