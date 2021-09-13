@@ -39,7 +39,7 @@ export default ({ command } : { command: string}) => {
       ],
     },
     server: {
-    cors: true,
+      cors: true,
       proxy: {
         // '^/apis/': {
         //   target: 'http://developer.api.autodesk.com/',
